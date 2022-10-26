@@ -2,11 +2,13 @@ package br.com.alura.challenge.controller;
 
 import br.com.alura.challenge.model.Video;
 import br.com.alura.challenge.service.VideoService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,20 +17,40 @@ import java.util.List;
 public class VideoController {
 
 
+    @Autowired
     private VideoService videoService;
 
-    public VideoController(VideoService videoService) {
-        this.videoService = videoService;
-    }
+
 
     @GetMapping(value = "videos")
+    @Transactional
     public List<Video> listaVideos (){
         return videoService.listaVideos();
     }
 
     @GetMapping("videos/{id}")
-    public Video verVideo(@PathVariable("id") Long id){
-        return videoService.verVideo(id);
+    @Transactional
+    public ResponseEntity<Video>  verVideo(@PathVariable("id") Long id){
+        return new ResponseEntity<>(videoService.verVideo(id), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "videos")
+    @Transactional
+    public ResponseEntity<Video> adicionarVideo(@Valid @RequestBody Video video){
+        return new ResponseEntity<Video>(videoService.adicionarVideo(video), HttpStatus.CREATED);
+    }
+
+    @PutMapping("videos/{id}")
+    @Transactional
+    public ResponseEntity<Video> atualizaVideo(@PathVariable("id") Long id,@Valid @RequestBody Video video){
+        return new ResponseEntity<>(videoService.altualizarVideo(id,video), HttpStatus.OK);
+    }
+
+    @DeleteMapping("videos/{id}")
+    @Transactional
+    public ResponseEntity<?> removerVideo(@PathVariable("id") Long id){
+        videoService.removerVideo(id);
+       return ResponseEntity.ok("Video deletado com sucesso");
     }
 
 //    @Autowired

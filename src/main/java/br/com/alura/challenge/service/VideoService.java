@@ -1,6 +1,7 @@
 package br.com.alura.challenge.service;
 
 import br.com.alura.challenge.model.Video;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ public interface VideoService {
 
     Video verVideo(Long id);
 
-    Video adicionarVideo ();
+    Video adicionarVideo (Video video);
 
-    Video alterarVideo ();
+    Video altualizarVideo (Long id, Video video);
 
-    Video removerVideo ();
+    void removerVideo (Long id);
 }
