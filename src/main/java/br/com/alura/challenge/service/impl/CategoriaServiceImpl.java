@@ -53,7 +53,8 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
-    public Optional<Categoria> findCategoriaById(long id) {
-        return categoriaRepository.findById(id);
+    public Categoria findCategoriaById(long id) {
+        return categoriaRepository.getReferenceById(id);
+
     }
 }

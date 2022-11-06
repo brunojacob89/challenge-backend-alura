@@ -64,7 +64,9 @@ public class VideoForm {
         if(categoriaId.isPresent()){
             return new Video(titulo,descricao,url,categoriaId.get());
         }
-        return new Video(titulo,descricao,url,categoriaService.findCategoriaById(1L).get());
+        else{
+            return new Video(titulo, descricao, url, categoriaService.findCategoriaById(1));
+        }
     }
 
     public Video atualizar(Long id, VideoRepository videoRepository){
@@ -73,7 +75,7 @@ public class VideoForm {
         video.setTitulo(this.titulo);
         video.setDescricao(this.descricao);
         video.setUrl(this.url);
-        video.getCategoria().setId(this.idCategoria);
+        video.setCategoria(new Categoria(idCategoria));
 
         return video;
     }

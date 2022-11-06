@@ -19,5 +19,5 @@ public interface CategoriaService {
 
     void removerCategoria (Long id);
 
-    Optional<Categoria> findCategoriaById(long id);
+    Categoria findCategoriaById(long id);
 }

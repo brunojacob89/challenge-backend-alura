@@ -43,6 +43,9 @@ public class VideoController {
     @PostMapping(value = "videos")
     @Transactional
     public ResponseEntity<VideoDto> adicionarVideo(@Valid @RequestBody VideoForm video){
+        if(video.getIdcategoria() == null){
+            video.setIdcategoria(1L);
+        }
         return new ResponseEntity<VideoDto>(videoService.adicionarVideo(video), HttpStatus.CREATED);
     }
 
