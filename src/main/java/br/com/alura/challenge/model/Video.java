@@ -1,10 +1,8 @@
 package br.com.alura.challenge.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 public class Video {
@@ -21,6 +19,27 @@ public class Video {
 
     @NotNull
     private String url;
+
+    @ManyToOne
+    private Categoria categoria;
+
+    public Video() {
+    }
+
+    public Video(String titulo, String descricao, String url, Categoria categoria) {
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.url = url;
+        this.categoria = categoria;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
 
     public Long getId() {
         return id;

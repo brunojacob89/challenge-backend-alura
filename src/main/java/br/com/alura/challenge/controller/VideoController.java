@@ -1,8 +1,11 @@
 package br.com.alura.challenge.controller;
 
+import br.com.alura.challenge.controller.dto.VideoDto;
+import br.com.alura.challenge.controller.form.VideoForm;
 import br.com.alura.challenge.model.Video;
 import br.com.alura.challenge.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/")
-
 public class VideoController {
 
 
@@ -24,26 +26,30 @@ public class VideoController {
 
     @GetMapping(value = "videos")
     @Transactional
-    public List<Video> listaVideos (){
-        return videoService.listaVideos();
+    public List<VideoDto> listaVideos (@RequestParam(required = false) String titulo){
+      if(titulo == null){
+          return videoService.listaVideos();
+      }else {
+        return videoService.listaVideoPorNome(titulo);
+      }
     }
 
     @GetMapping("videos/{id}")
     @Transactional
-    public ResponseEntity<Video>  verVideo(@PathVariable("id") Long id){
+    public ResponseEntity<VideoDto>  verVideo(@PathVariable("id") Long id){
         return new ResponseEntity<>(videoService.verVideo(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "videos")
     @Transactional
-    public ResponseEntity<Video> adicionarVideo(@Valid @RequestBody Video video){
-        return new ResponseEntity<Video>(videoService.adicionarVideo(video), HttpStatus.CREATED);
+    public ResponseEntity<VideoDto> adicionarVideo(@Valid @RequestBody VideoForm video){
+        return new ResponseEntity<VideoDto>(videoService.adicionarVideo(video), HttpStatus.CREATED);
     }
 
     @PutMapping("videos/{id}")
     @Transactional
-    public ResponseEntity<Video> atualizaVideo(@PathVariable("id") Long id,@Valid @RequestBody Video video){
-        return new ResponseEntity<>(videoService.altualizarVideo(id,video), HttpStatus.OK);
+    public ResponseEntity<VideoDto> atualizaVideo(@PathVariable("id") Long id,@Valid @RequestBody VideoForm video){
+        return new ResponseEntity<>(videoService.atualizarVideo(id,video), HttpStatus.OK);
     }
 
     @DeleteMapping("videos/{id}")
@@ -51,6 +57,12 @@ public class VideoController {
     public ResponseEntity<?> removerVideo(@PathVariable("id") Long id){
         videoService.removerVideo(id);
        return ResponseEntity.ok("Video deletado com sucesso");
+    }
+
+    @GetMapping("categorias/{id}/videos")
+    @Transactional
+    public List<VideoDto> listaVideosPorCategoria (@PathVariable("id") Long idCategoria){
+        return videoService.videoPorCategoria(idCategoria);
     }
 
 //    @Autowired

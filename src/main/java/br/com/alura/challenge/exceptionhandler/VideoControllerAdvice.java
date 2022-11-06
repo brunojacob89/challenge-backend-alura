@@ -18,10 +18,10 @@ public class VideoControllerAdvice {
 
     @ResponseBody
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(VideoNotFoundException.class)
-    public ResponseEntity<MessageExceptionHandler> videoNotFound (VideoNotFoundException videoNotFound){
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<MessageExceptionHandler> videoNotFound (NotFoundException videoNotFound){
         MessageExceptionHandler error = new MessageExceptionHandler(
-                new Date(), HttpStatus.NOT_FOUND.value(), "Video não encontrado");
+                new Date(), HttpStatus.NOT_FOUND.value(), "Não encontrado");
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
