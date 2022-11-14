@@ -16,6 +16,8 @@ public interface VideoService {
 
     Page<VideoDto> listaVideoPorNome(String titulo, Pageable paginacao);
 
+    List<VideoDto> listaOsCincoPrimeiroVideos();
+
     VideoDto verVideo(Long id);
 
     VideoDto adicionarVideo (VideoForm video);
@@ -25,4 +27,6 @@ public interface VideoService {
     void removerVideo (Long id);
 
     Page<VideoDto> videoPorCategoria(Long categoriaId, Pageable paginacao);
+
+
 }

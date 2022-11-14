@@ -25,6 +25,7 @@ public class VideoDto {
         this.Idcategoria = video.getCategoria().getId();
     }
 
+
     public Long getId() {
         return id;
     }
@@ -68,4 +69,8 @@ public class VideoDto {
     public static Page<VideoDto> converter(Page<Video> videos) {
         return videos.map(VideoDto::new);
     }
+    public static List<VideoDto> converterList(List<Video> videos) {
+        return videos.stream().map(VideoDto::new).collect(Collectors.toList());
+    }
+
 }

@@ -43,6 +43,12 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
+    public List<VideoDto> listaOsCincoPrimeiroVideos() {
+        List<Video> videos = videoRepository.buscaOsCincoPrimeiroVideos();
+        return VideoDto.converterList(videos);
+    }
+
+    @Override
     public VideoDto verVideo(Long id) {
         Optional<Video> video = videoRepository.findById(id);
         if(video.isPresent()){
@@ -84,4 +90,6 @@ public class VideoServiceImpl implements VideoService {
         Page<Video> listaVideos = videoRepository.buscaVideoPorCategoria(categoriaId, paginacao);
         return VideoDto.converter(listaVideos);
     }
+
+
 }

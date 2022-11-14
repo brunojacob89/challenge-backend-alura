@@ -18,4 +18,7 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
 
     @Query("SELECT v FROM Video v WHERE v.titulo LIKE %?1%")
     Page<Video> findByTitulo(String titulo, Pageable paginacao);
+
+    @Query(value = "SELECT * From Video LIMIT 5", nativeQuery = true)
+    List<Video> buscaOsCincoPrimeiroVideos();
 }

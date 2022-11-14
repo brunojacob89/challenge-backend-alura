@@ -4,6 +4,7 @@ import br.com.alura.challenge.controller.dto.VideoDto;
 import br.com.alura.challenge.controller.form.VideoForm;
 import br.com.alura.challenge.model.Video;
 import br.com.alura.challenge.service.VideoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,7 @@ public class VideoController {
 
     @GetMapping(value = "videos")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public Page<VideoDto> listaVideos (@RequestParam(required = false) String titulo,
                                        @PageableDefault(sort = "id", direction = Sort.Direction.ASC,page = 0, size = 5) Pageable paginacao){
       if(titulo == null){
@@ -39,8 +41,15 @@ public class VideoController {
       }
     }
 
+    @GetMapping(value = "videos/free")
+    @Transactional
+    public List<VideoDto> listaCincoPrimeiroVideos(){
+        return videoService.listaOsCincoPrimeiroVideos();
+    }
+
     @GetMapping("videos/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<VideoDto>  verVideo(@PathVariable("id") Long id){
         return new ResponseEntity<>(videoService.verVideo(id), HttpStatus.OK);
     }
@@ -56,12 +65,14 @@ public class VideoController {
 
     @PutMapping("videos/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<VideoDto> atualizaVideo(@PathVariable("id") Long id,@Valid @RequestBody VideoForm video){
         return new ResponseEntity<>(videoService.atualizarVideo(id,video), HttpStatus.OK);
     }
 
     @DeleteMapping("videos/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<?> removerVideo(@PathVariable("id") Long id){
         videoService.removerVideo(id);
        return ResponseEntity.ok("Video deletado com sucesso");
@@ -69,6 +80,7 @@ public class VideoController {
 
     @GetMapping("categorias/{id}/videos")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public Page<VideoDto> listaVideosPorCategoria (@PathVariable("id") Long idCategoria,
                                                    @PageableDefault(sort = "id", direction = Sort.Direction.ASC,page = 0, size = 5) Pageable paginacao){
         return videoService.videoPorCategoria(idCategoria, paginacao);
