@@ -3,6 +3,10 @@ package br.com.alura.challenge.controller;
 import br.com.alura.challenge.model.Categoria;
 import br.com.alura.challenge.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +25,8 @@ public class CategoriaController {
 
     @GetMapping(value = "categorias")
     @Transactional
-    public List<Categoria> listaCategoria(){
-        return categoriaService.listaCategoria();
+    public Page<Categoria> listaCategoria(@PageableDefault(sort = "id", direction = Sort.Direction.ASC,page = 0, size = 5) Pageable paginacao){
+        return categoriaService.listaCategoria(paginacao);
     }
 
     @GetMapping("categorias/{id}")

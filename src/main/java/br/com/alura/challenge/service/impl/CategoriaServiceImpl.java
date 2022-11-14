@@ -5,6 +5,8 @@ import br.com.alura.challenge.model.Categoria;
 import br.com.alura.challenge.repository.CategoriaRepository;
 import br.com.alura.challenge.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +19,8 @@ public class CategoriaServiceImpl implements CategoriaService {
     private CategoriaRepository categoriaRepository;
 
     @Override
-    public List<Categoria> listaCategoria() {
-      return categoriaRepository.findAll();
+    public Page<Categoria> listaCategoria(Pageable paginacao) {
+      return categoriaRepository.findAll(paginacao);
     }
 
     @Override

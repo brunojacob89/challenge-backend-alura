@@ -6,6 +6,7 @@ import br.com.alura.challenge.model.Video;
 import br.com.alura.challenge.repository.CategoriaRepository;
 import br.com.alura.challenge.repository.VideoRepository;
 import br.com.alura.challenge.service.CategoriaService;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -23,6 +24,7 @@ public class VideoForm {
     @NotNull
     private String descricao;
     @NotNull
+    @URL(message = "Não é uma url")
     private String url;
 
     private Long idCategoria;

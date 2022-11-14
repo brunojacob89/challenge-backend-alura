@@ -3,13 +3,14 @@ package br.com.alura.challenge.service.impl;
 import br.com.alura.challenge.controller.dto.VideoDto;
 import br.com.alura.challenge.controller.form.VideoForm;
 import br.com.alura.challenge.exceptionhandler.NotFoundException;
-import br.com.alura.challenge.model.Categoria;
 import br.com.alura.challenge.model.Video;
 import br.com.alura.challenge.repository.CategoriaRepository;
 import br.com.alura.challenge.repository.VideoRepository;
 import br.com.alura.challenge.service.CategoriaService;
 import br.com.alura.challenge.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,14 +31,14 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<VideoDto> listaVideos() {
-        List<Video> videos = videoRepository.findAll();
+    public Page<VideoDto> listaVideos(Pageable paginacao) {
+        Page<Video> videos = videoRepository.findAll(paginacao);
         return VideoDto.converter(videos);
     }
 
     @Override
-    public List<VideoDto> listaVideoPorNome(String titulo) {
-        List<Video> videos = videoRepository.findByTitulo(titulo);
+    public Page<VideoDto> listaVideoPorNome(String titulo, Pageable paginacao) {
+        Page<Video> videos = videoRepository.findByTitulo(titulo, paginacao);
         return VideoDto.converter(videos);
     }
 
@@ -79,8 +80,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<VideoDto> videoPorCategoria(Long categoriaId) {
-        List<Video> listaVideos = videoRepository.buscaVideoPorCategoria(categoriaId);
+    public Page<VideoDto> videoPorCategoria(Long categoriaId, Pageable paginacao) {
+        Page<Video> listaVideos = videoRepository.buscaVideoPorCategoria(categoriaId, paginacao);
         return VideoDto.converter(listaVideos);
     }
 }

@@ -2,6 +2,7 @@ package br.com.alura.challenge.controller.dto;
 
 
 import br.com.alura.challenge.model.Video;
+import org.springframework.data.domain.Page;
 
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class VideoDto {
         Idcategoria = idcategoria;
     }
 
-    public static List<VideoDto> converter(List<Video> videos) {
-        return videos.stream().map(VideoDto::new).collect(Collectors.toList());
+    public static Page<VideoDto> converter(Page<Video> videos) {
+        return videos.map(VideoDto::new);
     }
 }
